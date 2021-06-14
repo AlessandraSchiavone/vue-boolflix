@@ -1,9 +1,11 @@
 <template>
   <div >
-      <Search @performSearch="searchFilm" />
+      <Search @performSearch="search" />
       <div class="container" v-if="!loading ">
+        <h1>Film</h1>
         <div 
-                class="col-card"
+                id="film"
+                class="films col-card"
                 v-for="film,item in films"
                 :key="item"    
                 >
@@ -16,14 +18,27 @@
                     <div class="text" v-else>Lingua: {{film.original_language}}</div>
                     
                 <div class="text">Voto: {{ film.vote_average}} </div>
-                
-                <!-- <Character
-                    :item="character"
-                /> -->
+        </div>
+        <h1>Serie Tv</h1>
+        <div 
+                id="series"
+                class="col-card"
+                v-for="serie,item in series"
+                :key="item"    
+                >
+                <div class="text">Titolo: {{ serie.name}} </div>
+                <div class="text">Titolo Originale: {{ serie.original_name}} </div>
+                <div class="text" v-if="serie.original_language == stringen">Lingua: 
+                    <img src="../assets/en.png" alt=""> </div>
+                <div class="text" v-else-if="serie.original_language == stringit">Lingua: 
+                    <img src="../assets/it.png" alt=""> </div>
+                    <div class="text" v-else>Lingua: {{serie.original_language}}</div>
+                    
+                <div class="text">Voto: {{ serie.vote_average}} </div>
         </div>
         <div
             class="neg-response"
-            v-if="films.length == 0"
+            v-if="films.length == 0  "
         >
             <!-- <Error /> -->
             <h1>{{ msg }}</h1>
@@ -48,6 +63,7 @@ export default {
     data: function() {
         return {
             films: [],
+            series:[],
             loading: true,
             searchFieldText: '',
             msg: '',
@@ -57,7 +73,7 @@ export default {
         }
     },
     methods: {
-        searchFilm: function(text) {
+        search: function(text) {
             this.searchFieldText = text;
             axios
                 .get('https://api.themoviedb.org/3/search/movie', {
@@ -78,7 +94,26 @@ export default {
                     }
                     )
                 .catch();
-        }
+            axios
+                .get('https://api.themoviedb.org/3/search/tv', {
+                    params:{
+                        api_key: "c6d669c444d3c26032b4f5caf73674ad",
+                        query: this.searchFieldText,
+                        language: "it-IT"
+                    }
+                })
+                .then(
+                    (response) => {
+                        this.series = response.data.results;
+                        if(this.series.length == 0){
+                            this.msg = "Non ci sono film da visualizzare"
+                        }
+                        this.loading = false;
+                        console.log(this.series)
+                    }
+                    )
+                .catch();
+        },
     }
 }
     
@@ -91,8 +126,17 @@ export default {
     // max-width:1470px;
     // margin:0 auto;
     // height:calc(100% - 80px);
+
     display: flex;
     flex-wrap: wrap;
+    h1{
+        width:100%;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-style: italic;
+        color:white;
+        padding:10px;
+    }
 }
 .col-card{ 
     width:calc(100% / 6 - 10px);
@@ -102,6 +146,7 @@ export default {
     background-color: rgb(31, 31, 31);
     
 }
+
 .text{
         padding:10px 20px;
         color:white;
