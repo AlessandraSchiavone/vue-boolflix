@@ -2,9 +2,9 @@
   <div >
       <Search @performSearch="search" />
       <div class="container" v-if="!loading ">
-        <h1>Film</h1>
-        <div 
-                id="film"
+        <div id="films" v-if="films.length != 0">
+            <h1>Film</h1>
+            <div    
                 class="films col-card"
                 v-for="film,item in films"
                 :key="item"    
@@ -18,27 +18,31 @@
                     <div class="text" v-else>Lingua: {{film.original_language}}</div>
                     
                 <div class="text">Voto: {{ film.vote_average}} </div>
+            </div>
         </div>
-        <h1>Serie Tv</h1>
-        <div 
-                id="series"
-                class="col-card"
-                v-for="serie,item in series"
-                :key="item"    
-                >
+        
+        <div id="series" v-if="series.length != 0">
+            <h1>Serie Tv</h1>
+                <div 
+                    class="col-card"
+                    v-for="serie,item in series"
+                    :key="item"    
+                    >
                 <div class="text">Titolo: {{ serie.name}} </div>
-                <div class="text">Titolo Originale: {{ serie.original_name}} </div>
-                <div class="text" v-if="serie.original_language == stringen">Lingua: 
-                    <img src="../assets/en.png" alt=""> </div>
-                <div class="text" v-else-if="serie.original_language == stringit">Lingua: 
-                    <img src="../assets/it.png" alt=""> </div>
-                    <div class="text" v-else>Lingua: {{serie.original_language}}</div>
-                    
-                <div class="text">Voto: {{ serie.vote_average}} </div>
+                    <div class="text">Titolo Originale: {{ serie.original_name}} </div>
+                    <div class="text" v-if="serie.original_language == stringen">Lingua: 
+                        <img src="../assets/en.png" alt=""> </div>
+                    <div class="text" v-else-if="serie.original_language == stringit">Lingua: 
+                        <img src="../assets/it.png" alt=""> </div>
+                        <div class="text" v-else>Lingua: {{serie.original_language}}</div>
+                                
+                    <div class="text">Voto: {{ serie.vote_average}} </div>
+                </div>
         </div>
+        
         <div
             class="neg-response"
-            v-if="films.length == 0  "
+            v-else-if="films.length == 0  || series.length == 0"
         >
             <!-- <Error /> -->
             <h1>{{ msg }}</h1>
@@ -87,7 +91,7 @@ export default {
                     (response) => {
                         this.films = response.data.results;
                         if(this.films.length == 0){
-                            this.msg = "Non ci sono film da visualizzare"
+                            this.msg = "Nessun risultato per la ricerca " + this.searchFieldText;
                         }
                         this.loading = false;
                         console.log(this.films)
@@ -106,7 +110,7 @@ export default {
                     (response) => {
                         this.series = response.data.results;
                         if(this.series.length == 0){
-                            this.msg = "Non ci sono film da visualizzare"
+                            this.msg = "Nessun risultato per la ricerca " + this.searchFieldText;
                         }
                         this.loading = false;
                         console.log(this.series)
@@ -122,11 +126,8 @@ export default {
 
 <style lang="scss" scoped>
 
-.container{
-    // max-width:1470px;
-    // margin:0 auto;
-    // height:calc(100% - 80px);
-
+#films,
+#series{
     display: flex;
     flex-wrap: wrap;
     h1{
@@ -137,24 +138,27 @@ export default {
         color:white;
         padding:10px;
     }
-}
-.col-card{ 
-    width:calc(100% / 6 - 10px);
-    height:500px;
-    margin-right:10px;
-    margin-bottom:10px;
-    background-color: rgb(31, 31, 31);
-    
+    .col-card{ 
+        width:calc(100% / 6 - 10px);
+        height:500px;
+        margin-right:10px;
+        margin-bottom:10px;
+        background-color: rgb(31, 31, 31);
+        
+    }
+
+    .text{
+            padding:10px 20px;
+            color:white;
+            font-size: 30px;
+            img{
+                height:20px;
+            }
+        }  
+
 }
 
-.text{
-        padding:10px 20px;
-        color:white;
-        font-size: 30px;
-        img{
-            height:20px;
-        }
-}
+
 .neg-response{
     height:calc(100vh - 80px);
     
