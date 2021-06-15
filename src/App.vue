@@ -1,18 +1,18 @@
 <template>
   <div id="app">
     <main>
-      <FilmList />
+      <Main />
     </main>
   </div>
 </template>
 
 <script>
-import FilmList from './components/FilmList.vue'
+import Main from './components/Main'
 
 export default {
   name: 'App',
   components: {
-    FilmList,
+    Main,
   }
 }
 </script>

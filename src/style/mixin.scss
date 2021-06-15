@@ -1,0 +1,31 @@
+@mixin card {
+    position:relative;
+    height:100%;
+    cursor:pointer;
+    .poster{
+        width:100%;
+        height:100%;
+    }
+    &:hover .card-info{
+        display:block;
+    }
+    .card-info{
+        overflow-y: hidden;
+        display:none;
+        position:absolute;
+        top:0;
+        height:100%;
+        width:100%;
+        padding:15px;
+        color:white;
+        background-color: rgba(black,0.8);
+        .text span{
+            color:rgba(red,0.4);
+            font-style: italic;
+            font-weight: 700;
+        }
+        #overvw{
+        font-size:14px;
+        }
+    }
+}

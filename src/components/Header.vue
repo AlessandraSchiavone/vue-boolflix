@@ -1,13 +1,14 @@
 <template>
   <div class="search-bar">
-    <img src="../assets/Logo.png" alt="">
+    <img src="../assets/Logo.png" alt="Logo Boolflix">
     <input
             type="text"
             class="form-control"
             placeholder="Search"
             v-model.trim="searchText"
+            @keyup="$emit('performSearch', searchText)"
             >
-            <!--@keyup="$emit('performSearch', searchText)" -->
+            <!-- -->
      <div > 
           <button
             type="submit"
@@ -23,7 +24,7 @@
 <script>
 // import axios from 'axios';
 export default {
-    name:"Search",
+    name:"Header",
     data:
     function() {
         return {
@@ -49,6 +50,9 @@ export default {
     }
     .btn{
       position: absolute;
+      background-color:red;
+      color:white;
+      border-radius:10px;
       padding:3px;
       top:28px;
       right:20px;

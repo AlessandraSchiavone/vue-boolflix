@@ -10,7 +10,19 @@
         <div class="text" v-else-if="item.original_language == stringit"><span> Lingua: </span> 
                 <img class="band" src="../assets/it.png" alt=""> </div>
         <div class="text" v-else><span> Lingua: </span> {{item.original_language}}</div>                   
-        <div class="text"><span> Voto: </span> {{ Math.round(item.vote_average / 2) }} </div>
+        <div class="text"><span> Voto: </span>  
+        <span>
+        <i 
+        v-for="index in starFull()"
+        :key="index"
+        class="fas fa-star"></i>
+            </span>
+            <span>
+        <i 
+        v-for="index in (5 - starFull())"
+        :key="index"
+        class="far fa-star"></i>
+            </span> </div>
         <div id="overvw" class="text" v-if="item.overview.length != 0 " ><span> Overview: </span> {{ item.overview.substring(0,250) + "..." }}</div>
      </div>  
   </div>
@@ -24,7 +36,14 @@ export default {
         return {
             stringen: 'en',
             stringit: 'it',
+            serie: this.item,
             url:'https://image.tmdb.org/t/p/w342',
+        }
+    },
+    methods:{
+        starFull: function() {
+            const starfull = Math.round(this.serie.vote_average / 2);
+               return starfull;         
         }
     }
 
@@ -32,35 +51,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../style/mixin';
 .card{
-    position:relative;
-    height:100%;
-    cursor:pointer;
-    .poster{
-        width:100%;
-        height:100%;
-    }
-    &:hover .card-info{
-        display:block;
-    }
-    .card-info{
-        display:none;
-        position:absolute;
-        top:0;
-        height:100%;
-        width:100%;
-        padding:15px;
-        color:white;
-        background-color: rgba(black,0.8);
-        .text span{
-            color:rgba(red,0.4);
-            font-style: italic;
-            font-weight: 700;
-        }
-        #overvw{
-        font-size:14px;
-    }
-    }
-}
-    
+    @include card;
+} 
 </style>

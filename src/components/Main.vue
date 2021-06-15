@@ -1,6 +1,6 @@
 <template>
   <div>
-      <Search @performSearch="search" />
+      <Header @performSearch="search" />
       <div class="container" v-if="!loading ">
         <div id="films" v-if="films.length != 0">
             <h1>Film</h1>
@@ -9,7 +9,7 @@
                 v-for="film,index in films"
                 :key="index"    
                 >
-                <CardFilm 
+                <CardFilm
                     :item="film"
                 />
                
@@ -23,8 +23,7 @@
                     v-for="serie,index in series"
                     :key="index"    
                     >
-               
-                <CardSerie 
+                <CardSerie
                     :item="serie"
                 />
                 </div>
@@ -32,19 +31,19 @@
         
         <div
             class="neg-response"
-            v-else-if="films.length == 0  || series.length == 0"
+            v-else-if="films.length == 0  && series.length == 0"
         >
             <!-- <Error /> -->
             <h1>{{ msg }}</h1>
         </div>
-        </div>
-        <Loader v-else />
+      </div>
+      <Home v-else />
   </div>
 </template>
 
 <script>
-import Search from './Search';
-import Loader from './Loader';
+import Header from './Header';
+import Home from './Home';
 import CardFilm from './CardFilm.vue';
 import CardSerie from './CardSerie.vue';
 // import Error from './Error';
@@ -52,8 +51,8 @@ import axios from 'axios';
 export default {
  name: "FilmList",
     components: {
-        Search,
-        Loader,
+        Header,
+        Home,
         CardFilm,
         CardSerie
         // Error
@@ -107,7 +106,7 @@ export default {
                     }
                     )
                 .catch();
-        },
+        }
     }
 }
     
@@ -128,10 +127,9 @@ export default {
         padding:10px;
     }
     .col-card{ 
-        width:calc(100% / 6 - 20px);
-        margin-right:20px;
-        margin-bottom:20px;
-        height:500px;
+        width:calc(280px - 20px);
+        margin:10px;
+        height:460px;
     }
     .text{
         color:white;
