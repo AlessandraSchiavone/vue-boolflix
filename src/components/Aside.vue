@@ -12,9 +12,9 @@
             </div>
             <div class="list btn-cont">
                 <ul v-if="status">
-                    <li>Home Page</li>
-                    <li>Film</li>
-                    <li>Serie TV</li>
+                    <li><a href="/">Home Page</a></li>
+                    <li><a href="#films">Film</a></li>
+                    <li><a href="#series">Serie TV</a></li>
                     <li>Drammi</li>
                     <li>Horror</li>
                     <li>Originali Netflix</li>
@@ -103,6 +103,13 @@ aside {
                         padding:10px 0px;
                         font-size: 18px;
                         list-style: none;
+                        a{
+                            color:rgb(175, 172, 172);  
+                            text-decoration: none;
+                            &:hover{
+                            color: white;
+                            }
+                        }
                         &:hover{
                             color: white;
                             background-color:grey ;
