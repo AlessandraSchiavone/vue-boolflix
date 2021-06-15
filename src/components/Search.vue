@@ -6,7 +6,6 @@
             class="form-control"
             placeholder="Search"
             v-model.trim="searchText"
-           
             >
             <!--@keyup="$emit('performSearch', searchText)" -->
      <div > 

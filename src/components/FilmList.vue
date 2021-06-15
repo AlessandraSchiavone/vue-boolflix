@@ -1,23 +1,18 @@
 <template>
-  <div >
+  <div>
       <Search @performSearch="search" />
       <div class="container" v-if="!loading ">
         <div id="films" v-if="films.length != 0">
             <h1>Film</h1>
-            <div    
-                class="films col-card"
-                v-for="film,item in films"
-                :key="item"    
+            <div   
+                class="col-card" 
+                v-for="film,index in films"
+                :key="index"    
                 >
-                <div class="text">Titolo: {{ film.title}} </div>
-                <div class="text">Titolo Originale: {{ film.original_title}} </div>
-                <div class="text" v-if="film.original_language == stringen">Lingua: 
-                    <img src="../assets/en.png" alt=""> </div>
-                <div class="text" v-else-if="film.original_language == stringit">Lingua: 
-                    <img src="../assets/it.png" alt=""> </div>
-                    <div class="text" v-else>Lingua: {{film.original_language}}</div>
-                    
-                <div class="text">Voto: {{ film.vote_average}} </div>
+                <CardFilm 
+                    :item="film"
+                />
+               
             </div>
         </div>
         
@@ -25,18 +20,13 @@
             <h1>Serie Tv</h1>
                 <div 
                     class="col-card"
-                    v-for="serie,item in series"
-                    :key="item"    
+                    v-for="serie,index in series"
+                    :key="index"    
                     >
-                <div class="text">Titolo: {{ serie.name}} </div>
-                    <div class="text">Titolo Originale: {{ serie.original_name}} </div>
-                    <div class="text" v-if="serie.original_language == stringen">Lingua: 
-                        <img src="../assets/en.png" alt=""> </div>
-                    <div class="text" v-else-if="serie.original_language == stringit">Lingua: 
-                        <img src="../assets/it.png" alt=""> </div>
-                        <div class="text" v-else>Lingua: {{serie.original_language}}</div>
-                                
-                    <div class="text">Voto: {{ serie.vote_average}} </div>
+               
+                <CardSerie 
+                    :item="serie"
+                />
                 </div>
         </div>
         
@@ -55,6 +45,8 @@
 <script>
 import Search from './Search';
 import Loader from './Loader';
+import CardFilm from './CardFilm.vue';
+import CardSerie from './CardSerie.vue';
 // import Error from './Error';
 import axios from 'axios';
 export default {
@@ -62,6 +54,8 @@ export default {
     components: {
         Search,
         Loader,
+        CardFilm,
+        CardSerie
         // Error
     },
     data: function() {
@@ -71,9 +65,7 @@ export default {
             loading: true,
             searchFieldText: '',
             msg: '',
-            stringen: 'en',
-            stringit: 'it',
-
+            
         }
     },
     methods: {
@@ -89,12 +81,11 @@ export default {
                 })
                 .then(
                     (response) => {
-                        this.films = response.data.results;
-                        if(this.films.length == 0){
-                            this.msg = "Nessun risultato per la ricerca " + this.searchFieldText;
-                        }
-                        this.loading = false;
-                        console.log(this.films)
+                            this.films = response.data.results;
+                            if(this.films.length == 0){
+                                this.msg = "Nessun risultato per la ricerca " + this.searchFieldText;
+                            }
+                            this.loading = false;     
                     }
                     )
                 .catch();
@@ -113,7 +104,6 @@ export default {
                             this.msg = "Nessun risultato per la ricerca " + this.searchFieldText;
                         }
                         this.loading = false;
-                        console.log(this.series)
                     }
                     )
                 .catch();
@@ -124,8 +114,7 @@ export default {
     
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss" >
 #films,
 #series{
     display: flex;
@@ -139,26 +128,21 @@ export default {
         padding:10px;
     }
     .col-card{ 
-        width:calc(100% / 6 - 10px);
+        width:calc(100% / 6 - 20px);
+        margin-right:20px;
+        margin-bottom:20px;
         height:500px;
-        margin-right:10px;
-        margin-bottom:10px;
-        background-color: rgb(31, 31, 31);
-        
     }
-
     .text{
-            padding:10px 20px;
-            color:white;
-            font-size: 30px;
-            img{
-                height:20px;
-            }
-        }  
-
+        color:white;
+        font-size: 20px;
+        padding:5px;
+        .band{
+            height:15px;
+        }
+    }  
+   
 }
-
-
 .neg-response{
     height:calc(100vh - 80px);
     
