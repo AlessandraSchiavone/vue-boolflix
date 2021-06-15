@@ -27,7 +27,7 @@
             </span>
         </div>
        
-        <div id="overvw" class=" text" v-if="item.overview.length != 0 " ><span> Overview: </span> {{ item.overview.substring(0,500) + "..." }}</div>
+        <div id="overvw" class=" text" v-if="item.overview.length != 0 " ><span> Overview: </span> {{ item.overview.substring(0,300) + "..." }}</div>
         </div>
   </div>
 </template>

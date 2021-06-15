@@ -1,7 +1,9 @@
 <template>
   <div>
       <Header @performSearch="search" />
-      <div class="container" v-if="!loading ">
+      <div class="big-cont">
+      <Aside @performSearch="search" />
+      <div class="container-full" v-if="!loading ">
         <div id="films" v-if="films.length != 0">
             <h1>Film</h1>
             <div   
@@ -37,12 +39,15 @@
             <h1>{{ msg }}</h1>
         </div>
       </div>
-      <Home v-else />
+      <Home v-else /> </div>
   </div>
+      
+ 
 </template>
 
 <script>
 import Header from './Header';
+import Aside from './Aside';
 import Home from './Home';
 import CardFilm from './CardFilm.vue';
 import CardSerie from './CardSerie.vue';
@@ -52,6 +57,7 @@ export default {
  name: "FilmList",
     components: {
         Header,
+        Aside,
         Home,
         CardFilm,
         CardSerie
@@ -114,6 +120,9 @@ export default {
 </script>
 
 <style lang="scss" >
+.big-cont{
+    display:flex;
+}
 #films,
 #series{
     display: flex;
