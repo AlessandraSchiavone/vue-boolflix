@@ -62,6 +62,8 @@ export default {
             searchInit: true,
             searchFieldText: '',
             msg: '',
+            moviesGenres: [],
+			seriesGenres: []
         }
     },
     methods: {
@@ -130,15 +132,12 @@ export default {
         padding:10px;
     }
     .col-card{
-        width:calc(100% / 6 - 20px);
+        width:calc(260px - 20px);
         margin:10px;
         height:460px;
     }
     .text{
         color:white;
-        font-size: 20px;
-        padding:5px;
-        
     }
 
 }
