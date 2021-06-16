@@ -1,36 +1,29 @@
 <template>
   <div>
-      <Header @performSearch="search" />
+      <Header/>
       <div class="big-cont">
       <Aside @performSearch="search" />
-      <div class="container-full" v-if="!loading ">
+      <div class="container-full" v-if="!searchInit ">
         <div id="films" v-if="films.length != 0">
             <h1>Film</h1>
-            <div   
-                class="col-card" 
-                v-for="film,index in films"
-                :key="index"    
-                >
-                <CardFilm
+                <Card
+                    class="col-card"
+                    v-for="film,index in films"
+                    :key="index"
                     :item="film"
                 />
-               
-            </div>
         </div>
-        
+
         <div id="series" v-if="series.length != 0">
-            <h1>Serie Tv</h1>
-                <div 
+            <h1>Serie Tv</h1> 
+                <Card
                     class="col-card"
                     v-for="serie,index in series"
-                    :key="index"    
-                    >
-                <CardSerie
+                    :key="index"
                     :item="serie"
                 />
-                </div>
         </div>
-        
+
         <div
             class="neg-response"
             v-else-if="films.length == 0  && series.length == 0"
@@ -39,18 +32,18 @@
             <h1>{{ msg }}</h1>
         </div>
       </div>
-      <Home v-else /> </div>
+      <Home v-else />
+       </div>
   </div>
-      
- 
+
+
 </template>
 
 <script>
 import Header from './Header';
 import Aside from './Aside';
 import Home from './Home';
-import CardFilm from './CardFilm.vue';
-import CardSerie from './CardSerie.vue';
+import Card from './Card.vue';
 // import Error from './Error';
 import axios from 'axios';
 export default {
@@ -59,23 +52,22 @@ export default {
         Header,
         Aside,
         Home,
-        CardFilm,
-        CardSerie
+        Card,
         // Error
     },
     data: function() {
         return {
             films: [],
             series:[],
-            loading: true,
+            searchInit: true,
             searchFieldText: '',
             msg: '',
-            
         }
     },
     methods: {
         search: function(text) {
             this.searchFieldText = text;
+            /*Chiamata per film*/
             axios
                 .get('https://api.themoviedb.org/3/search/movie', {
                     params:{
@@ -90,10 +82,11 @@ export default {
                             if(this.films.length == 0){
                                 this.msg = "Nessun risultato per la ricerca " + this.searchFieldText;
                             }
-                            this.loading = false;     
+                            this.searchInit = false;     
                     }
                     )
                 .catch();
+            /*Chiamata per Serie*/
             axios
                 .get('https://api.themoviedb.org/3/search/tv', {
                     params:{
@@ -108,15 +101,16 @@ export default {
                         if(this.series.length == 0){
                             this.msg = "Nessun risultato per la ricerca " + this.searchFieldText;
                         }
-                        this.loading = false;
+                        this.searchInit = false;
                     }
                     )
                 .catch();
-        }
+        },
+        
     }
 }
-    
-    
+
+
 </script>
 
 <style lang="scss" >
@@ -135,8 +129,8 @@ export default {
         color:white;
         padding:10px;
     }
-    .col-card{ 
-        width:calc(280px - 20px);
+    .col-card{
+        width:calc(100% / 6 - 20px);
         margin:10px;
         height:460px;
     }
@@ -144,17 +138,15 @@ export default {
         color:white;
         font-size: 20px;
         padding:5px;
-        .band{
-            height:15px;
-        }
-    }  
-   
+        
+    }
+
 }
 .neg-response{
     height:calc(100vh - 80px);
-    
+
     h1{
-        
+
         display: inline;
         padding:10px;
         color:white;

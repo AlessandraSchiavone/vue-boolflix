@@ -8,7 +8,6 @@
             <div class="icon-cont">
             <div class="btn-cont" >
                 <i class="fas fa-search" @click="toggleSearch" :class="status ? 'active' : ''"></i>
-                <span v-if="status">Cerca</span>
             </div>
             <div class="list btn-cont">
                 <ul v-if="status">
@@ -75,15 +74,13 @@ aside {
             display: flex;
             flex-direction: column;
             width:100%;
+            padding:10px;
             margin: 30px 0;
             color:rgb(175, 172, 172);  
             cursor:pointer;
             .btn-cont {
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
                 width:100%;
                 padding:20px 2px;
                 cursor: pointer;
