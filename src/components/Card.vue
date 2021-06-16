@@ -3,9 +3,9 @@
        <img class="poster" v-if="item.poster_path != null " :src="url + item.poster_path" >
        <img class="poster" v-else src="../assets/bcknet.jpg" alt="">
        <div class="card-info">
-            <div class="text"><span> {{ item.title ? item.title : item.name}} </span>  </div>
-            <div class="text"><span> Titolo Originale: </span> {{ item.original_title ? item.original_title : item.original_name}} </div>
-            <div class="text" v-if="availableFlags.includes(item.original_language)">
+            <div><span> {{ item.title ? item.title : item.name}} </span>  </div>
+            <div><span> Titolo Originale: </span> {{ item.original_title ? item.original_title : item.original_name}} </div>
+            <div v-if="availableFlags.includes(item.original_language)">
                 <span> Lingua: </span>
                 <img 
                 class="band"
@@ -13,8 +13,8 @@
                 :alt="`bandiera ${item.original_language} `"
                 >
             </div>
-            <div v-else class="text"><span> Lingua: </span> {{item.original_language}}</div> 
-            <div class="text"><span> Voto:  </span>
+            <div v-else><span> Lingua: </span> {{item.original_language}}</div> 
+            <div><span> Voto:  </span>
                 <span>
                 <i 
                 v-for="index in starFull(item)"
@@ -28,15 +28,19 @@
                 class="far fa-star"></i>
                 </span>
             </div>
-            <div class="text" v-if="actors.length != 0">
+            <div v-if="actors.length != 0">
                 <span>Cast:</span>
                 <ol class="cast">
                     <li v-for="(actor, index) in actors" :key="index">
 						{{ actor.name }}</li>
-                </ol>
-                
+                </ol> 
             </div>
-            <div id="overvw" class=" text" v-if="item.overview.length != 0 " ><span> Overview: </span> {{ item.overview.substring(0,300) + "..." }}</div>
+            <div v-if="genres.length != 0"> 
+                <span>Genere:</span>
+                <div class="genre" v-for="(genre, index) in genres" :key="index">
+				{{ genre }}</div>
+            </div>
+            <div id="overvw" v-if="item.overview.length != 0 " ><span> Overview: </span> {{ item.overview.substring(0,300) + "..." }}</div>
         </div>
   </div>
 </template>
@@ -45,13 +49,16 @@
 import axios from 'axios';
 export default {
      name:"Card",
-     props: [ "item" ],
+     props: { 
+         item:Object,
+         genresTypes:Array,
+         },
      data: function() {
         return {
             availableFlags:['it', 'en'],
-            film:this.item,
-            serie:this.item,
+            datas:this.item,
             actors:[],
+            genres: [],
             urlActorsMovie:'https://api.themoviedb.org/3/movie',
             url:'https://image.tmdb.org/t/p/w342',
         }
@@ -65,7 +72,7 @@ export default {
             
         },
         getUrl() {
-			return `${this.urlActorsMovie}/${this.film.id.toString()}/credits`;
+			return `${this.urlActorsMovie}/${this.datas.id.toString()}/credits`;
 		}
     },
     created() {
@@ -86,7 +93,13 @@ export default {
                     }
                     )
         .catch();
-        
+        this.datas.genre_ids.forEach((element) => {
+			for (var i = 0; i < this.genresTypes.length; i++) {
+				if (element == this.genresTypes[i].id) {
+					this.genres.push(this.genresTypes[i].name);
+				}
+			}
+		});
     }
 }
 </script>
@@ -100,6 +113,10 @@ export default {
     height:15px;
 }
 .cast{
-    font-size:12px;
+    font-size:16px;
+    list-style: none;
+}
+.genre{
+    display: inline;
 }
 </style>

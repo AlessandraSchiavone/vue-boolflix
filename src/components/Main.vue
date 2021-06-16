@@ -11,6 +11,7 @@
                     v-for="film,index in films"
                     :key="index"
                     :item="film"
+                    :genresTypes="filmsGenres"
                 />
         </div>
 
@@ -21,6 +22,7 @@
                     v-for="serie,index in series"
                     :key="index"
                     :item="serie"
+                    :genresTypes="seriesGenres"
                 />
         </div>
 
@@ -62,7 +64,7 @@ export default {
             searchInit: true,
             searchFieldText: '',
             msg: '',
-            moviesGenres: [],
+            filmsGenres: [],
 			seriesGenres: []
         }
     },
@@ -107,12 +109,36 @@ export default {
                     }
                     )
                 .catch();
-        },
         
+        }
+    },
+    created() {
+        axios.get("https://api.themoviedb.org/3/genre/movie/list", {
+                    params:{
+                        api_key: "c6d669c444d3c26032b4f5caf73674ad",
+                        language: "it-IT"
+                    }
+                })
+                .then(
+                    (response) => {
+                        this.filmsGenres = response.data.genres;        
+                    }
+                    )
+        .catch();
+        axios.get("https://api.themoviedb.org/3/genre/tv/list", {
+                    params:{
+                        api_key: "c6d669c444d3c26032b4f5caf73674ad",
+                        language: "it-IT"
+                    }
+                })
+                .then(
+                    (response) => {
+                        this.seriesGenres = response.data.genres;        
+                    }
+                    )
+        .catch();
     }
 }
-
-
 </script>
 
 <style lang="scss" >
@@ -132,14 +158,10 @@ export default {
         padding:10px;
     }
     .col-card{
-        width:calc(260px - 20px);
+        width:calc(360px - 20px);
         margin:10px;
-        height:460px;
+        height:560px;
     }
-    .text{
-        color:white;
-    }
-
 }
 .neg-response{
     height:calc(100vh - 80px);
