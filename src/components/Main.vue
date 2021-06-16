@@ -6,20 +6,22 @@
       <div class="container-full" v-if="!searchInit ">
         <div id="films" v-if="films.length != 0">
             <h1>Film</h1>
+                <Select @performSelectGenre="selectGenerFilm" :genresTypes="filmsGenres"/>
                 <Card
                     class="col-card"
-                    v-for="film,index in films"
+                    v-for="film,index in filterdFilm()"
                     :key="index"
                     :item="film"
-                    :genresTypes="filmsGenres"
+                    :genresTypes="filmsGenres"  
                 />
         </div>
 
         <div id="series" v-if="series.length != 0">
             <h1>Serie Tv</h1> 
+                <Select @performSelectGenre="selectGenerSerie" :genresTypes="seriesGenres"/>
                 <Card
                     class="col-card"
-                    v-for="serie,index in series"
+                    v-for="serie,index in filteredSerie()"
                     :key="index"
                     :item="serie"
                     :genresTypes="seriesGenres"
@@ -45,8 +47,8 @@
 import Header from './Header';
 import Aside from './Aside';
 import Home from './Home';
-import Card from './Card.vue';
-// import Error from './Error';
+import Card from './Card';
+import Select from './Select';
 import axios from 'axios';
 export default {
  name: "FilmList",
@@ -55,7 +57,7 @@ export default {
         Aside,
         Home,
         Card,
-        // Error
+        Select
     },
     data: function() {
         return {
@@ -64,6 +66,8 @@ export default {
             searchInit: true,
             searchFieldText: '',
             msg: '',
+            selectFieldGenrFilm: '',
+            selectFieldGenrSerie: '',
             filmsGenres: [],
 			seriesGenres: []
         }
@@ -110,7 +114,39 @@ export default {
                     )
                 .catch();
         
-        }
+        },
+        selectGenerFilm: function(text){
+            this.selectFieldGenrFilm = text;
+        },
+        selectGenerSerie: function(text){
+            this.selectFieldGenrSerie = text;
+        },
+        filterdFilm: function(){
+            var filteredArray = [];
+            if(this.selectFieldGenrFilm == "" || this.selectFieldGenrFilm == "All"){
+                return this.films;
+                }else {
+                    filteredArray = this.films.filter((element) => {
+					return element.genre_ids.toString().includes(
+						this.selectFieldGenrFilm
+					);
+				});
+            return filteredArray;
+                }
+             },   
+        filteredSerie: function(){
+            var filteredArray = [];
+            if(this.selectFieldGenrSerie == "" || this.selectFieldGenrSerie == "All"){
+                return this.series;
+                }else {
+                    filteredArray = this.series.filter((element) => {
+					return element.genre_ids.toString().includes(
+						this.selectFieldGenrSerie
+					);
+				});
+            return filteredArray;
+                }
+             },
     },
     created() {
         axios.get("https://api.themoviedb.org/3/genre/movie/list", {
@@ -147,6 +183,7 @@ export default {
 }
 #films,
 #series{
+    position:relative;
     display: flex;
     flex-wrap: wrap;
     h1{

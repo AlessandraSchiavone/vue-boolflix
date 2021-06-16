@@ -40,7 +40,7 @@
                 <div class="genre" v-for="(genre, index) in genres" :key="index">
 				{{ genre }}</div>
             </div>
-            <div id="overvw" v-if="item.overview.length != 0 " ><span> Overview: </span> {{ item.overview.substring(0,300) + "..." }}</div>
+            <div id="overvw" v-if="item.overview.length != 0 " ><span> Overview: </span> {{ item.overview.substring(0,200) + "..." }}</div>
         </div>
   </div>
 </template>
@@ -67,9 +67,6 @@ export default {
         starFull: function(obj) {
                 const starfull = Math.round(obj.vote_average / 2);
                return starfull;         
-        },
-        searchActors: function(){
-            
         },
         getUrl() {
 			return `${this.urlActorsMovie}/${this.datas.id.toString()}/credits`;
@@ -119,4 +116,6 @@ export default {
 .genre{
     display: inline;
 }
+
+
 </style>
