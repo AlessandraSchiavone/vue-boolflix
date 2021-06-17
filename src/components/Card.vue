@@ -1,27 +1,27 @@
 <template>
   <div class="card">
        <img class="poster" v-if="item.poster_path != null " :src="url + item.poster_path" >
-       <img class="poster" v-else src="../assets/bcknet.jpg" alt="">
+       <img class="poster" v-else src="../assets/nondisp.jpg" alt="">
        <div class="card-info">
-            <div><span> {{ item.title ? item.title : item.name}} </span>  </div>
-            <div><span> Titolo Originale: </span> {{ item.original_title ? item.original_title : item.original_name}} </div>
+            <div class="title"> {{ item.title ? item.title : item.name}}   </div>
+            <div>{{ item.original_title ? item.original_title : item.original_name}} </div>
             <div v-if="availableFlags.includes(item.original_language)">
-                <span> Lingua: </span>
+                 Lingua: 
                 <img 
                 class="band"
                 :src="require(`../assets/${item.original_language}.png`)"
                 :alt="`bandiera ${item.original_language} `"
                 >
             </div>
-            <div v-else><span> Lingua: </span> {{item.original_language}}</div> 
-            <div><span> Voto:  </span>
-                <span>
+            <div v-else> Lingua:  {{item.original_language}}</div> 
+            <div>  
+                <span class="stars">
                 <i 
                 v-for="index in starFull(item)"
                 :key="index"
                 class="fas fa-star"></i>
                     </span>
-                <span>
+                <span class="stars">
                 <i 
                 v-for="index in (5 - starFull(item))"
                 :key="index"
@@ -29,19 +29,21 @@
                 </span>
             </div>
             <div v-if="actors.length != 0">
-                <span>Cast:</span>
+                <span class="text-grey">Cast:</span>
                 <ol class="cast">
                     <li v-for="(actor, index) in actors" :key="index">
-						{{ actor.name }}</li>
+						<span :class="(index < actors.length-1) ? 'comma' : '' "> {{ actor.name }}</span>
+                        </li>
                 </ol> 
             </div>
             <div v-if="genres.length != 0"> 
-                <span>Genere:</span>
+                <span class="text-grey">Generi:</span>
                 <div class="genre" v-for="(genre, index) in genres" :key="index">
-				{{ genre }}</div>
+                    <span :class="(index < genres.length-1) ? 'comma' : '' "> {{ genre }}</span>
+				</div>
             </div>
-            <div id="overvw" v-if="item.overview.length != 0 " ><span> Overview: </span> {{ item.overview.substring(0,200) + "..." }}</div>
-        </div>
+            <div id="overvw" v-if="item.overview.length != 0 " > {{ item.overview.substring(0,200) + "..." }}</div>
+       </div>
   </div>
 </template>
 
@@ -110,10 +112,17 @@ export default {
     height:15px;
 }
 .cast{
+    margin:0;
+    padding:0;
+    display: inline;
     font-size:16px;
     list-style: none;
+    li{
+       display: inline;
+    }
 }
 .genre{
+    font-size:16px;
     display: inline;
 }
 

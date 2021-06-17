@@ -16,17 +16,29 @@
         top:0;
         height:100%;
         width:100%;
-        padding:5px;
+        padding:10px;
         color:white;
-        font-size:16px;
+        font-size:20px;
         background-color: rgba(black,0.8);
-        div span{
-            color:rgba(red,0.4);
-            font-style: italic;
+        .title{
+            text-transform: uppercase;
+            font-size: 22px;
             font-weight: 700;
+            font-style: italic;
+        }
+        .stars{
+            color:rgb(255, 230, 0);
+        }
+        .text-grey{
+            color: grey;
+            font-weight: 300;
+        }
+        .comma::after{
+            content: ",";
         }
         #overvw{
-        font-size:14px;
+        padding-top:10px;
+        font-size:18px;
         }
     }
 }

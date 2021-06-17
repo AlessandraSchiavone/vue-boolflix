@@ -9,23 +9,7 @@
             <div class="btn-cont" >
                 <i class="fas fa-search" @click="toggleSearch" :class="status ? 'active' : ''"></i>
             </div>
-            <div class="list btn-cont">
-                <ul v-if="status">
-                    <li><a href="/">Home Page</a></li>
-                    <li><a href="#films">Film</a></li>
-                    <li><a href="#series">Serie TV</a></li>
-                    <li>Drammi</li>
-                    <li>Horror</li>
-                    <li>Originali Netflix</li>
-                    <li>Documentari</li>
-                    <li>Film per bambini</li>
-                    <li>Commedie</li>
-                    <li>Film premiati</li>
-                    <li>Film italiani</li>
-                    <li>Film internazionali</li>
-                    <li>Disponibili per il download</li>     
-                </ul>
-            </div> 
+            
         </div>
     </aside>
 </template>
@@ -88,32 +72,7 @@ aside {
                     color: white;
                 }
             }
-            .list{
-                ul{
-                   height:100%;
-                    width:100%;
-                    margin:0;
-                    padding:0;
-                    
-                    li{
-                        text-align: left;
-                        padding:10px 0px;
-                        font-size: 18px;
-                        list-style: none;
-                        a{
-                            color:rgb(175, 172, 172);  
-                            text-decoration: none;
-                            &:hover{
-                            color: white;
-                            }
-                        }
-                        &:hover{
-                            color: white;
-                            background-color:grey ;
-                        }
-                    }
-                }
-            }   
+               
         }
     }
 </style>

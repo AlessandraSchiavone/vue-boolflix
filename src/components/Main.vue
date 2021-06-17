@@ -4,19 +4,19 @@
       <div class="big-cont">
       <Aside @performSearch="search" />
       <div class="container-full" v-if="!searchInit ">
-        <div id="films" v-if="films.length != 0">
+        <div id="films">
             <h1>Film</h1>
                 <Select @performSelectGenre="selectGenerFilm" :genresTypes="filmsGenres"/>
                 <Card
                     class="col-card"
-                    v-for="film,index in filterdFilm()"
+                    v-for="film,index in filteredFilm()"
                     :key="index"
                     :item="film"
                     :genresTypes="filmsGenres"  
                 />
         </div>
 
-        <div id="series" v-if="series.length != 0">
+        <div id="series" >
             <h1>Serie Tv</h1> 
                 <Select @performSelectGenre="selectGenerSerie" :genresTypes="seriesGenres"/>
                 <Card
@@ -30,7 +30,7 @@
 
         <div
             class="neg-response"
-            v-else-if="films.length == 0  && series.length == 0"
+            v-if="filteredFilm().length == 0  && filteredSerie().length == 0"
         >
             <!-- <Error /> -->
             <h1>{{ msg }}</h1>
@@ -121,7 +121,7 @@ export default {
         selectGenerSerie: function(text){
             this.selectFieldGenrSerie = text;
         },
-        filterdFilm: function(){
+        filteredFilm: function(){
             var filteredArray = [];
             if(this.selectFieldGenrFilm == "" || this.selectFieldGenrFilm == "All"){
                 return this.films;
@@ -144,7 +144,7 @@ export default {
 						this.selectFieldGenrSerie
 					);
 				});
-            return filteredArray;
+             return filteredArray;
                 }
              },
     },
@@ -188,9 +188,7 @@ export default {
     flex-wrap: wrap;
     h1{
         width:100%;
-        text-transform: uppercase;
         font-weight: 600;
-        font-style: italic;
         color:white;
         padding:10px;
     }
@@ -202,10 +200,7 @@ export default {
 }
 .neg-response{
     height:calc(100vh - 80px);
-
     h1{
-
-        display: inline;
         padding:10px;
         color:white;
         font-size: 25px;

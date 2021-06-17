@@ -2,7 +2,7 @@
   <div class="home-container">
       <div class="home-text">
           <h3>Film, serie TV e tanto altro. Senza limiti.</h3>
-          <h4>Guarda ciò che vuoi ovunque. Disdici quando vuoi.</h4>
+          <h6>Guarda ciò che vuoi ovunque. Disdici quando vuoi.</h6>
       </div>
   </div>
 </template>
@@ -27,9 +27,12 @@ export default {
         transform: translate(-50%,-50%);
         text-align: center;
         color:white;
-        h3,h4{
-            font-size: 55px;
+        h3{
+            font-size: 80px;
             font-weight: 700;
+        }
+        h6{
+            font-size: 30px;
         }
     }
 }
